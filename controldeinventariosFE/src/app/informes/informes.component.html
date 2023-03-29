@@ -1,0 +1,157 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+                        Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion"
+                        aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+    
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Informes#articulo">Artículo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Informes#proveedor">Proveedor</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+
+    <div style="text-align:center">
+        <h1>{{ title }}</h1>
+        <br><img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- Informe de articulo -->
+    <div class="buscar" id=articulo>
+        <h2>Informe Existencias por Articulo y periodo de tiempo:</h2>
+        <br><form (ngSubmit)="InformeArticulo()" [formGroup]="InformeArticuloG">
+            Artículo
+            <label for="Artic"><input type="text" name="Artic" id="Artic" formControlName="textarticuloInfo" 
+                class="form-control" placeholder="Ingrese el articulo"></label>
+            <br><br>
+            Fecha Inicial del Informe
+            <label for="Ini"><input type="text" name="Ini" id="Ini" formControlName="textfechainicialInfo" 
+                class="form-control" placeholder="YYYY-MM-DD"></label>
+            <br><br>
+            Fecha Final del Informe
+            <label for=""><input type="text" name="Ini" id="Ini" formControlName="textfechafinalInfo" 
+                class="form-control" placeholder="YYYY-MM-DD"></label>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Generar Informe por Artículo</button>
+        </form>
+        <br><h2>{{TituloInfoArticulo}}</h2>
+        <table class="tabBuscar">
+            <thead class="Colb">
+                <th >{{TabBusArticulo[0]}}</th>
+                <th >{{TabBusArticulo[1]}}</th>
+                <th >{{TabBusArticulo[2]}}</th>
+                <th >{{TabBusArticulo[3]}}</th>
+                <th >{{TabBusArticulo[4]}}</th>
+                <th >{{TabBusArticulo[5]}}</th>
+            </thead>
+            <tbody class="Filb">
+                <tr  *ngFor="let tart of InfoArticulo">
+                    <th >{{ tart.id_articulo}} </th>
+                    <th >{{ tart.nombre_articulo}} </th>
+                    <th >{{ tart.nombre_marca}} </th>
+                    <th >{{ tart.cantidad_articulos}} </th>
+                    <th>{{ tart.fecha_ingreso}} </th>
+                    <th >{{ tart.fecha_salida}} </th>
+                </tr>
+            </tbody>
+        </table>
+        
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <div class="buscar" id=proveedor>
+        <h2> Informe Compras por Proveedor y periodo de tiempo:</h2>
+        <br>
+        <form (ngSubmit)="InformeProveedor()" [formGroup]="InformeProveedorC">
+            Proveedor
+            <label for="Artic"><input type="text" name="Artic" id="Artic" formControlName="textproveedorInfo" 
+                class="form-control" placeholder="Ingrese el proveedor"></label>
+            <br><br>
+            Fecha Inicial del Informe
+            <label for="Ini"><input type="text" name="Ini" id="Ini" formControlName="textfechainicialInfo" 
+                class="form-control" placeholder="YYYY-MM-DD"></label>
+            <br><br>
+            Fecha Final del Informe
+            <label for=""><input type="text" name="Ini" id="Ini" formControlName="textfechafinalInfo" 
+                class="form-control" placeholder="YYYY-MM-DD"></label>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Generar Informe por Artículo</button>
+        </form>
+        <br>
+        <h2>{{TituloInfoProveedor}}</h2>
+        <table class="tabInforme">
+            <thead class="Colb">
+                <th >{{TabBusProveedor[0]}}</th>
+                <th >{{TabBusProveedor[1]}}</th>
+                <th >{{TabBusProveedor[2]}}</th>
+                <th >{{TabBusProveedor[3]}}</th>
+                <th >{{TabBusProveedor[4]}}</th>
+                <th >{{TabBusProveedor[5]}}</th>
+                <th >{{TabBusProveedor[6]}}</th>
+            </thead>
+            <tbody class="Filb">
+                <tr  *ngFor="let tprov of InfoProveedor">
+                    <th >{{ tprov.id_factura_compra}} </th>
+                    <th >{{ tprov.nombre_proveedor}} </th>
+                    <th >{{ tprov.forma_de_pago}} </th>
+                    <th >{{ tprov.estado_compra}} </th>
+                    <th>{{ tprov.fecha_factura_compra}} </th>
+                    <th >{{ tprov.fecha_ingreso}} </th>
+                    <th >{{ tprov.fecha_salida}} </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br><br><br><br>
+
+    <!-- ***************************************************************************************** -->
+    <!-- botones para navegar a otras paginas -->
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+          </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Articulos">
+            ARTICULOS
+          </button>
+          <button type="button" class="btn btn-outline-primary" routerLink="/Proveedores">
+            PROVEEDORES
+          </button>
+          <button type="button" class="btn btn-outline-primary" routerLink="/Factura-Compras">
+            FACTURA DE COMPRAS
+          </button>
+          <button type="button" class="btn btn-outline-primary" routerLink="/Detalle-Compras">
+            DETALLE DE COMPRAS
+          </button>
+          <button type="button" class="btn btn-outline-primary" routerLink="/Inventarios">
+            INVENTARIOS
+          </button>
+          <button type="button" class="btn btn-outline-primary" routerLink="/Marcas">
+            MARCAS
+          </button>
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a><a></a>
+    </div>
+</body>
+

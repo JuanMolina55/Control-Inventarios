@@ -1,0 +1,225 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF"> Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion" aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Proveedores#crear">Crear</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Proveedores#modificar">Modificar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Proveedores#mostrar">Mostrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Proveedores#listar">Listar</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+    <div style="text-align:center">
+        <h1>{{ title }}</h1>
+        <br><img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el listado de Tipos de Documentos -->
+
+    <div class=" lista" id="listar">
+        <h2>Lista de los Proveedores: </h2>
+        <form (ngSubmit)="consultaProveedores(1)" [formGroup]="ListaProveedor">
+            <button type="submit" class="btn btn-outline-dark">Mostrar Lista de Proveedores</button>
+            <br><br>
+            <button (click)="LimpiarLista()" class="btn btn-outline-dark">Limpiar Lista de Proveedores
+            </button>
+            <br><br>
+            <h2>{{TituloProveedores}}</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>{{TablaProveedores[0]}}</th>
+                        <th>{{TablaProveedores[1]}}</th>
+                        <th>{{TablaProveedores[2]}}</th>
+                        <th>{{TablaProveedores[3]}}</th>
+                        <th>{{TablaProveedores[4]}}</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tprov of Proveedores">
+                            <th>{{ tprov.id_proveedor}} </th>
+                            <th>{{ tprov.nombre_proveedor}} </th>
+                            <th>{{ tprov.telefono_proveedor}} </th>
+                            <th>{{ tprov.direccion_proveedor}} </th>
+                            <th>{{ tprov.vigencia_proveedor}} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar un solo Proveedor -->
+    <div class="buscar" id="mostrar">
+        <h2>Mostramos el Proveedor seleccionado: </h2>
+        <br>
+        <form (ngSubmit)="buscarProveedor()" [formGroup]="filtrarProveedor">
+            Id del Proveedor a mostrar
+            <select class="dropdown" formControlName="combofiltro" (click)="consultaProveedores(2)" class="form-control-sm">
+                <option hidden [selected]="true">Proveedor a buscar</option>
+                <option *ngFor="let Proveedor of comboListaProveedor" [value]="Proveedor.id_proveedor">
+                    {{Proveedor.nombre_proveedor}}
+                </option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Seleccione Proveedor</button>
+        </form>
+
+        <ul>
+            <br>
+            <h2>{{TituloProveedor}}</h2>
+            <table class="tabBuscar">
+                <thead class="Colb">
+                    <th>{{TabBusProveedores[0]}}</th>
+                    <th>{{TabBusProveedores[1]}}</th>
+                    <th>{{TabBusProveedores[2]}}</th>
+                    <th>{{TabBusProveedores[3]}}</th>
+                    <th>{{TabBusProveedores[4]}}</th>
+                </thead>
+                <tbody class="Filb">
+                    <tr *ngFor="let tprov of MiProveedor">
+                        <th>{{ tprov.id_proveedor}} </th>
+                        <th>{{ tprov.nombre_proveedor}} </th>
+                        <th>{{ tprov.telefono_proveedor}} </th>
+                        <th>{{ tprov.direccion_proveedor}} </th>
+                        <th>{{ tprov.vigencia_proveedor}} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para crear un Proveedor -->
+    <div class="crea" id="crear">
+        <h2>Registrar un Nuevo Proveedor</h2>
+        <br>
+        <form (ngSubmit)="InsertarProveedor()" [formGroup]="InsertarGProveedor">
+            Proveedor:
+            <label for="NProveedor"><input type="text" name="NProveedor" id="NProveedor" formControlName="textProveedor"
+                    class="form-control" placeholder="Ingrese nombre"></label>
+
+            <br><br> Teléfono:
+            <label for="TProveedor"><input type="text" name="TProveedor" id="TProveedor"
+                    formControlName="textTelProveedor" maxlength="20" class="form-control"
+                    placeholder="Ingrese teléfono"></label>
+
+            <br><br> Dirección:
+            <label for="DProveedor"><input type="text" name="DProveedor" id="DProveedor"
+                    formControlName="textDirProveedor" class="form-control" placeholder="Ingrese dirección"></label>
+
+            <br><br> Vigencia:
+            <label for="VProveedor" style="width: 250px;"><input type="number" min="1" max="2" name="VProveedor" id="VProveedor"
+                    formControlName="textVigProveedor" class="form-control"
+                    placeholder="Ingrese vigencia (1 o 2)"></label>
+
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Insertar Proveedor</button>
+
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para actualizar un proveedor -->
+    <div class="edit" id="modificar">
+        <h2> Proveedor a Editar</h2>
+        <br>
+        <form (ngSubmit)="buscarEditarProveedor()" [formGroup]="ActualizarAProveedor">
+            Proveedor a Editar:
+            <select class="dropdown" formControlName="BuscarIdProveedor" (click)="consultaProveedores(3)" class="form-control-sm">
+                <option hidden [selected]="true">Proveedor a editar</option>
+                <option *ngFor="let TProv of comboEditarProveedor" [value]="TProv.id_proveedor">
+                    {{TProv.nombre_proveedor}}
+                </option>
+            </select>
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Buscar Proveedor a Editar</button>
+            <br><br>
+            <h2>{{TituloProveedorEdit}}</h2>
+            <li *ngFor="let Prov of MiProveedorE">
+                Proveedor:
+                <label for="NProveedor"><input type="text" name="NProveedor" id="NProveedor"
+                        value={{Prov.nombre_proveedor}} [(ngModel)]="Prov.nombre_proveedor"
+                        formControlName="textnuevoproveeedor" class="form-control"></label>
+                <br><br> Teléfono:
+                <label for="TelProveedor"><input type="text" name="TelProveedor" id="TelProveedor"
+                        value={{Prov.telefono_proveedor}} [(ngModel)]="Prov.telefono_proveedor"
+                        formControlName="textnuevotelproveedor" class="form-control"></label>
+                <br><br> Dirección:
+                <label for="DirProveedor"><input type="text" name="DirProveedor" id="DirProveedor"
+                        value={{Prov.direccion_proveedor}} [(ngModel)]="Prov.direccion_proveedor"
+                        formControlName="textnuevodirproveedor" class="form-control"></label>
+                <br><br> Vigencia:
+                <label for="VigProveedor" style="width: 250px;"><input type="number" min="1" max="2" name="VigProveedor" id="VigProveedor"
+                        value={{Prov.vigencia_proveedor}} [(ngModel)]="Prov.vigencia_proveedor"
+                        formControlName="textnuevovigproveedor" class="form-control"></label>
+                <br><br>
+            </li>
+            <br>
+            <button (click)="ActualizarProveedor()" class="btn btn-outline-dark">Actualizar</button>
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!-- ***************************************************************************************** -->
+    <!-- botones para navegar a otras paginas -->
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Articulos">
+            ARTICULOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Factura-Compras">
+            FACTURA DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Detalle-Compras">
+            DETALLE DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inventarios">
+            INVENTARIOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Marcas">
+            MARCAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Informes">
+            INFORMES
+        </button>
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a>
+        <a></a>
+    </div>
+</body>

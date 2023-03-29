@@ -1,0 +1,238 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF"> Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion" aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Articulos#crear">Crear</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Articulos#modificar">Modificar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Articulos#mostrar">Mostrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Articulos#listar">Listar</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+    <div style="text-align:center">
+        <h1>{{ title }}</h1>
+        <br><img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el listado de Articulos -->
+
+    <div class=" lista" id=listar>
+        <h2>Lista de los Articulos: </h2>
+        <form (ngSubmit)="consultaArticulos(1)" [formGroup]="ListaArticulo">
+            <button type="submit" class="btn btn-outline-dark">Mostrar Lista de Articulos</button>
+            <br><br>
+            <button (click)="LimpiarLista()" class="btn btn-outline-dark">Limpiar Lista de Articulos
+            </button>
+            <br><br>
+            <h2>{{TituloArticulos}}</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>{{TablaArticulos[0]}}</th>
+                        <th>{{TablaArticulos[1]}}</th>
+                        <th>{{TablaArticulos[2]}}</th>
+                        <th>{{TablaArticulos[3]}}</th>
+                        <th>{{TablaArticulos[4]}}</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tart of Articulos">
+                            <th>{{ tart.id_articulo}} </th>
+                            <th>{{ tart.nombre_marca}} </th>
+                            <th>{{ tart.nombre_articulo}} </th>
+                            <th>{{ tart.unidades_articulo}} </th>
+                            <th>{{ tart.vigencia_articulo}} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar un solo Articulo -->
+    <div class="buscar" id=mostrar>
+        <h2>Mostramos el Articulo seleccionado: </h2>
+        <br>
+        <form (ngSubmit)="buscarArticulo()" [formGroup]="filtrarArticulo">
+            Id del Articulo a mostrar
+            <select class="dropdown" formControlName="combofiltro" (click)="consultaArticulos(2)" class="form-control-sm">
+                <option hidden [selected]="true">Articulo a buscar</option>
+                <option *ngFor="let Articulo of comboListaArticulo" [value]="Articulo.id_articulo">
+                    {{Articulo.nombre_articulo}} -
+                    {{Articulo.nombre_marca}}
+                </option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Buscar Articulo</button>
+        </form>
+
+        <ul>
+            <br>
+            <h2>{{TituloArticulo}}</h2>
+            <table class="tabBuscar">
+                <thead class="Colb">
+                    <th>{{TabBusArticulos[0]}}</th>
+                    <th>{{TabBusArticulos[1]}}</th>
+                    <th>{{TabBusArticulos[2]}}</th>
+                    <th>{{TabBusArticulos[3]}}</th>
+                    <th>{{TabBusArticulos[4]}}</th>
+                </thead>
+                <tbody class="Filb">
+                    <tr *ngFor="let tart of MiArticulo">
+                        <th>{{ tart.id_articulo}} </th>
+                        <th>{{ tart.nombre_marca}} </th>
+                        <th>{{ tart.nombre_articulo}} </th>
+                        <th>{{ tart.unidades_articulo}} </th>
+                        <th>{{ tart.vigencia_articulo}} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para crear un Articulo -->
+    <div class="crea" id=crear>
+        <h2>Registrar un Nuevo Artículo</h2>
+        <br>
+        <form (ngSubmit)="InsertarArticulo()" [formGroup]="InsertarGArticulo">
+            Nuevo Articulo:
+            <label for="CArticulo"><input type="text" name="CArticulo" id="CArticulo" formControlName="textNomArticulo"
+                    class="form-control" placeholder="Ingrese nombre"></label>
+
+            <br><br> Marca:
+            <select class="dropdown" formControlName="combofiltromarca" (click)="consultaMarcas(1)" formControlName="textMarArticulo" class="form-control-sm">
+                <option hidden [selected]="true">Seleccione la marca</option>
+                <option *ngFor="let m of comboListaMarca" [value]="m.id_marca">
+                    {{m.nombre_marca}}
+                </option>
+            </select>
+            <br><br> Unidades:
+            <label for="UniArticulo"><input type="number" name="UniArticulo" id="UniArticulo"
+                    formControlName="textUniArticulo" maxlength="5" class="form-control"
+                    placeholder="Ingrese unidades"></label>
+
+            <br><br> Vigencia:
+            <label for="VigArticulo" style="width: 250px;"><input type="number" min="1" max="2" name="VigArticulo" id="VigArticulo"
+                    formControlName="textVigArticulo" maxlength="1" class="form-control"
+                    placeholder="Ingrese vigencia (1 o 2)"></label>
+
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Insertar Articulo</button>
+
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para actualizar un articulo -->
+    <div class="edit" id=modificar>
+        <h2> Artículo a Editar</h2>
+        <br>
+        <form (ngSubmit)="buscarEditarArticulo()" [formGroup]="ActualizaraArticulo">
+            Artículo a Editar:
+            <select class="dropdown" formControlName="BuscarIdArticulo" (click)="consultaArticulos(3)" class="form-control-sm">
+                <option hidden [selected]="true">Artículo a editar</option>
+                <option *ngFor="let TArt of comboEditarArticulo" [value]="TArt.id_articulo">
+                    {{TArt.nombre_articulo}} -
+                    {{TArt.nombre_marca}}
+                </option>
+            </select>
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Buscar Articulo a Editar</button>
+            <br><br>
+            <h2>{{TituloArticulo}}</h2>
+            <li *ngFor="let Art of MiArticuloE">
+                Marca:
+                <!--<label for="EArticulo"><input type="text" name="EArticulo" id="EArticulo" value={{Art.marca_articulo}}
+                        [(ngModel)]="Art.marca_articulo" formControlName="textnuevoMarArticulo"
+                        class="form-control"></label>
+                <br><br>-->
+                <select class="dropdown" formControlName="combofiltromarca" (click)="consultaMarcas(1)" value={{Art.marca_articulo}} [(ngModel)]="Art.marca_articulo" formControlName="textnuevoMarArticulo" class="form-control-sm">
+                    <option hidden [selected]="true">Seleccione la marca</option>
+                    <option *ngFor="let m of comboListaMarca" [value]="m.id_marca"> 
+                        {{m.nombre_marca}}
+                    </option>
+                </select>
+                <br><br> Artículo:
+                <label for="Arti"><input type="text" name="Arti" id="Arti" value={{Art.nombre_articulo}}
+                        [(ngModel)]="Art.nombre_articulo" formControlName="textnuevoNomArticulo"
+                        class="form-control"></label>
+                <br><br> Unidades:
+                <label for="Unid"><input type="number" name="Unid" id="Unid" value={{Art.unidades_articulo}}
+                        [(ngModel)]="Art.unidades_articulo" formControlName="textnuevoUniArticulo"
+                        class="form-control"></label>
+                <br><br> Vigencia:
+                <label for="Vige" style="width: 250px;"><input type="number" min="1" max="2" name="Vige" id="Vige" value={{Art.vigencia_articulo}}
+                        [(ngModel)]="Art.vigencia_articulo" formControlName="textnuevoVigArticulo"
+                        class="form-control"></label>
+                <br><br>
+            </li>
+            <br>
+            <button (click)="ActualizarArticulo()" class="btn btn-outline-dark">Actualizar</button>
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+    <!-- ***************************************************************************************** -->
+    <!-- botones para navegar a otras paginas -->
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Proveedores">
+            PROVEEDORES
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Factura-Compras">
+            FACTURA DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Detalle-Compras">
+            DETALLE DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inventarios">
+            INVENTARIOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Marcas">
+            MARCAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Informes">
+            INFORMES
+        </button>
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a>
+        <a></a>
+    </div>
+</body>

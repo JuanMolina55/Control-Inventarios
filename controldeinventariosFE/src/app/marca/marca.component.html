@@ -1,0 +1,209 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF"> Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion" aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Marcas#crear">Crear</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Marcas#modificar">Modificar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Marcas#mostrar">Mostrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Marcas#listar">Listar</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+    <div style="text-align:center">
+        <h1>{{ title }}</h1>
+        <br><img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el listado de Tipos de Documentos -->
+
+    <div class=" lista" id="listar">
+        <h2>Lista de las Marcas: </h2>
+        <form (ngSubmit)="consultaMarcas(1)" [formGroup]="ListaMarca">
+            <button type="submit" class="btn btn-outline-dark">Mostrar Lista de Marcas</button>
+            <br><br>
+            <button (click)="LimpiarLista()" class="btn btn-outline-dark">Limpiar Lista de Marcas
+            </button>
+            <br><br>
+            <h2>{{TituloMarcas}}</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>{{TablaMarcas[0]}}</th>
+                        <th>{{TablaMarcas[1]}}</th>
+                        <th>{{TablaMarcas[2]}}</th>
+                        <th>{{TablaMarcas[3]}}</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tmar of Marcas">
+                            <th>{{ tmar.id_marca}} </th>
+                            <th>{{ tmar.nombre_marca}} </th>
+                            <th>{{ tmar.pais_origen_marca}} </th>
+                            <th>{{ tmar.pagina_marca}} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar una sola Marca -->
+    <div class="buscar" id="mostrar">
+        <h2>Mostramos la Marca seleccionada: </h2>
+        <br>
+        <form (ngSubmit)="buscarMarca()" [formGroup]="filtrarMarca">
+            Marca a mostrar:
+            <select class="dropdown" formControlName="combofiltro" (click)="consultaMarcas(2)" class="form-control-sm">
+                <option hidden [selected]="true">Marca a buscar</option>
+                <option *ngFor="let Marca of comboListaMarca" [value]="Marca.id_marca">
+                    {{Marca.nombre_marca}}
+                </option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Buscar Marca</button>
+        </form>
+
+        <ul>
+            <br>
+            <h2>{{TituloMarca}}</h2>
+            <table class="tabBuscar">
+                <thead class="Colb">
+                    <th>{{TabBusMarcas[0]}}</th>
+                    <th>{{TabBusMarcas[1]}}</th>
+                    <th>{{TabBusMarcas[2]}}</th>
+                    <th>{{TabBusMarcas[3]}}</th>
+                </thead>
+                <tbody class="Filb">
+                    <tr *ngFor="let tmar of MiMarca">
+                        <th>{{ tmar.id_marca}} </th>
+                        <th>{{ tmar.nombre_marca}} </th>
+                        <th>{{ tmar.pais_origen_marca}} </th>
+                        <th>{{ tmar.pagina_marca}} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para crear una Marca -->
+    <div class="crea" id="crear">
+        <h2>Registrar una Marca</h2>
+        <br>
+        <form (ngSubmit)="InsertarMarca()" [formGroup]="InsertarGMarca">
+            Nueva Marca:
+            <label for="CMarca"><input type="text" name="CMarca" id="CMarca" formControlName="textMarca"
+                    class="form-control" placeholder="Ingrese nombre"></label>
+
+            <br><br> Pais de orígen:
+            <label for="PaMarca"><input type="pais" name="PaMarca" id="PaMarca" formControlName="textPaisMarca"
+                    class="form-control" placeholder="Ingrese país"></label>
+
+            <br><br> Página:
+            <label for="PagMarca"><input type="url" name="PagMarca" id="PagMarca" formControlName="textPagMarca"
+                    class="form-control" placeholder="Ingrese página"></label>
+
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Insertar Marca</button>
+
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para actualizar una Marca -->
+    <div class="edit" id="modificar">
+        <h2> Marca a Editar</h2>
+        <br>
+        <form (ngSubmit)="buscarEditarMarca()" [formGroup]="ActualizarAMarca">
+            Marca a Editar:
+            <select class="dropdown" formControlName="BuscarIdMarca" (click)="consultaMarcas(3)" class="form-control-sm">
+                <option hidden [selected]="true" >Seleccione la marca</option>
+                <option *ngFor="let TMar of comboEditarMarca" [value]="TMar.id_marca">
+                    {{TMar.nombre_marca}}
+                </option>
+            </select>
+
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Buscar Marca a Editar</button>
+            <br><br>
+            <h2>{{TituloMarcaEdit}}</h2>
+            <li *ngFor="let Marc of MiMarcaE">
+                Nueva Marca:
+                <label for="NMarca"><input type="text" name="NMarca" id="NMarca" value={{Marc.nombre_marca}}
+                        [(ngModel)]="Marc.nombre_marca" formControlName="textnuevamarca" class="form-control"></label>
+                <br><br> Nuevo país de orígen
+                <label for="PMarca"><input type="text" name="PMarca" id="PMarca" value={{Marc.pais_origen_marca}}
+                        [(ngModel)]="Marc.pais_origen_marca" formControlName="textnuevopaismarca"
+                        class="form-control"></label>
+                <br><br> Nueva página
+                <label for="PaMarca"><input type="text" name="PaMarca" id="PaMarca" value={{Marc.pagina_marca}}
+                        [(ngModel)]="Marc.pagina_marca" formControlName="textnuevapagmcarca"
+                        class="form-control"></label>
+                <br><br>
+            </li>
+            <br>
+            <button (click)="ActualizarMarca()" class="btn btn-outline-dark">Actualizar</button>
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Articulos">
+            ARTICULOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Proveedores">
+            PROVEEDORES
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Factura-Compras">
+            FACTURA DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Detalle-Compras">
+            DETALLE DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inventarios">
+            INVENTARIOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Informes">
+            INFORMES
+        </button>
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a>
+        <a></a>
+    </div>
+</body>

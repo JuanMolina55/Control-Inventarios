@@ -1,0 +1,307 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF"> Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion" aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Inventarios#crear">Crear</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Inventarios#modificar">Modificar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Inventarios#mostrar">Mostrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Inventarios#listar">Listar</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+
+    <div style="text-align:center">
+        <h1>{{ title }}</h1>
+        <br><img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el listado del inventario -->
+
+    <div class=" lista" id="listar">
+        <h2>Lista del Inventario: </h2>
+        <form (ngSubmit)="consultaInventarios(1)" [formGroup]="ListaInventario">
+            <!--[formGroup]="ListaTiposDocum"-->
+            <button type="submit" class="btn btn-outline-dark">Mostrar Lista del Inventario</button>
+            <br><br>
+            <button (click)="LimpiarLista()" class="btn btn-outline-dark">Limpiar Lista del Inventario
+            </button>
+            <br><br>
+            <h2>{{TituloInventarios}}</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>{{TablaInventarios[0]}}</th>
+                        <th>{{TablaInventarios[1]}}</th>
+                        <th>{{TablaInventarios[2]}}</th>
+                        <th>{{TablaInventarios[3]}}</th>
+                        <th>{{TablaInventarios[4]}}</th>
+                        <th>{{TablaInventarios[5]}}</th>
+                        <th>{{TablaInventarios[6]}}</th>
+                        <th>{{TablaInventarios[7]}}</th>
+                        <th>{{TablaInventarios[8]}}</th>
+                        <th>{{TablaInventarios[9]}}</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tinv of Inventarios">
+                            <th>{{ tinv.nombre_articulo}} </th>
+                            <th>{{ tinv.nombre_marca}} </th>
+                            <th>{{ tinv.fecha_ingreso}} </th>
+                            <th>{{ tinv.fecha_salida}} </th>
+                            <th>{{ tinv.cantidad_articulos}} </th>
+                            <th>{{ tinv.precio_venta}} </th>
+                            <th>{{ tinv.max_articulos_inventario}} </th>
+                            <th>{{ tinv.min_articulos_inventario}} </th>
+                            <th>{{ tinv.ubicacion_producto}} </th>
+                            <th>{{ tinv.tiempo_entrega}} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar un solo inventario -->
+    <div class="buscar" id="mostrar">
+        <h2>Mostramos Inventario seleccionado: </h2>
+        <br>
+        <form (ngSubmit)="buscarInventario()" [formGroup]="filtrarInventario">
+            Artículo del inventario a mostrar:
+            <select class="dropdown" formControlName="combofiltro" (click)="consultaInventarios(2)" class="form-control-sm">
+                <option hidden [selected]="true">Inventario a buscar</option>
+                <option *ngFor="let Inventario of comboListaInventario" [value]="Inventario.id_inventario">
+                    {{Inventario.nombre_articulo}} -
+                    {{Inventario.nombre_marca}} -
+                    {{Inventario.fecha_ingreso}} -
+                    {{Inventario.fecha_salida}} -
+                    {{Inventario.cantidad_Inventarios}}
+                </option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Buscar Inventario</button>
+        </form>
+
+        <ul>
+            <br>
+            <h2>{{TituloInventario}}</h2>
+            <table class="tabBuscar">
+                <thead class="Colb">
+                    <th>{{TabBusInventarios[0]}}</th>
+                    <th>{{TabBusInventarios[1]}}</th>
+                    <th>{{TabBusInventarios[2]}}</th>
+                    <th>{{TabBusInventarios[3]}}</th>
+                    <th>{{TabBusInventarios[4]}}</th>
+                    <th>{{TabBusInventarios[5]}}</th>
+                    <th>{{TabBusInventarios[6]}}</th>
+                    <th>{{TabBusInventarios[7]}}</th>
+                    <th>{{TabBusInventarios[8]}}</th>
+                    <th>{{TabBusInventarios[9]}}</th>
+                </thead>
+                <tbody class="Filb">
+                    <tr *ngFor="let tdoc of MiInventario">
+                        <th>{{ tdoc.nombre_articulo}} </th>
+                        <th>{{ tdoc.nombre_marca}} </th>
+                        <th>{{ tdoc.fecha_ingreso}} </th>
+                        <th>{{ tdoc.fecha_salida}} </th>
+                        <th>{{ tdoc.cantidad_articulos}} </th>
+                        <th>{{ tdoc.precio_venta}} </th>
+                        <th>{{ tdoc.max_articulos_inventario}} </th>
+                        <th>{{ tdoc.min_articulos_inventario}} </th>
+                        <th>{{ tdoc.ubicacion_producto}} </th>
+                        <th>{{ tdoc.tiempo_entrega}} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para crear un Inventario -->
+    <div class="crea" id="crear">
+        <h2>Registrar un nuevo artículo al Inventario</h2>
+        <br>
+        <form (ngSubmit)="InsertarInventario()" [formGroup]="InsertarGInventario">
+
+            Artículo:
+            <select class="dropdown" formControlName="combofiltroarticulo" (click)="consultaArticulos(1)" formControlName="textIdArtInventario" class="form-control-sm">
+                <option hidden [selected]="true">Seleccione el artículo</option>
+                <option *ngFor="let art of comboListaArticulo" [value]="art.id_articulo">
+                    {{art.nombre_articulo}} -
+                    {{art.nombre_marca}}
+                </option>
+            </select>
+            <br><br> Fecha de ingreso:
+            <label for="IngInventario"><input type="date" name="IngInventario" id="IngInventario"
+                    formControlName="textIngInventario" class="form-control"></label>
+
+            <br><br> Fecha de salida:
+            <label for="SalInventario"><input type="date" name="SalInventario" id="SalInventario"
+                    formControlName="textSalInventario" class="form-control"></label>
+
+
+
+            <br><br> Precio de venta:
+            <label for="PreInventario"><input type="number" name="PreInventario" id="PreInventario"
+                    formControlName="textPrecInventario" class="form-control"
+                    placeholder="Ingrese el precio de venta"></label>
+
+            <br><br> Maximo de artículos:
+            <label for="MaxInventario"><input type="number" [(ngModel)]="maximo" name="MaxInventario" id="MaxInventario"
+                    formControlName="textMaxInventario" class="form-control"
+                    placeholder="Máximo de Inventarios"></label>
+
+            <br><br> Mínimo de artículos:
+            <label for="MinInventario"><input type="number" [(ngModel)]="minimo" name="MinInventario" id="MinInventario"
+                    formControlName="textMinInventario" class="form-control"
+                    placeholder="Mínimo de Inventarios"></label>
+
+            <br><br> Cantidad:
+            <label for="CantInventario" style="width:inherit"><input type="number" [min]="minimo" [max]="maximo" name="CantInventario" id="CantInventario"
+                    formControlName="textCantInventario" class="form-control" placeholder="Ingrese la cantidad"></label>
+
+            <br><br> Ubicacion del artículo:
+            <label for="UbiInventario"><input type="text" name="UbiInventario" id="UbiInventario"
+                    formControlName="textUbiInventario" class="form-control" placeholder="Ingrese la ubicación"></label>
+
+            <br><br> Tiempo de entrega:
+            <label for="TieInventario"><input type="number" name="TieInventario" id="TieInventario"
+                    formControlName="textTiemInventario" class="form-control"
+                    placeholder="Tiempo de entrega(dias)"></label>
+
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Insertar Inventario</button>
+
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para actualizar el inventario -->
+    <div class="edit" id="modificar">
+        <h2> Artículo del inventario a editar</h2>
+        <br>
+        <form (ngSubmit)="buscarEditarInventario()" [formGroup]="ActualizarAInventario">
+            Artículo a Editar:
+            <select class="dropdown" formControlName="BuscarIdInventario" (click)="consultaInventarios(3)" class="form-control-sm">
+                <option hidden [selected]="true">Artículo del inventario a editar</option>
+                <option *ngFor="let TArt of comboEditarInventario" [value]="TArt.id_inventario">
+                    {{TArt.cantidad_articulos}} -
+                    {{TArt.nombre_articulo}} -
+                    {{TArt.fecha_ingreso}}-
+                    {{TArt.fecha_salida}}
+
+                </option>
+            </select>
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Buscar Inventario a Editar</button>
+            <br><br>
+            <h2>{{TituloInventario}}</h2>
+            <li *ngFor="let Inv of MiInventarioE">
+                Artículo:
+                <select class="dropdown" formControlName="combofiltroarticulo" (click)="consultaArticulos(1)" value={{Inv.id_articulo}} [(ngModel)]="Inv.id_articulo" formControlName="textnuevoidartinventario" class="form-control-sm">
+                    <option hidden [selected]="true">Seleccione el artículo</option>
+                    <option *ngFor="let art of comboListaArticulo" [value]="art.id_articulo">
+                        {{art.nombre_articulo}} -
+                        {{art.nombre_marca}}
+                    </option>
+                </select>
+                <br><br> Fecha de ingreso:
+                <label for="Fech"><input type="text" name="Fech" id="Fech" value={{Inv.fecha_ingreso}}
+                        [(ngModel)]="Inv.fecha_ingreso" formControlName="textnuevoinginventario"
+                        class="form-control"></label>
+                <br><br> Fecha de salida:
+                <label for="Sal"><input type="text" name="Sal" id="Sal" value={{Inv.fecha_salida}}
+                        [(ngModel)]="Inv.fecha_salida" formControlName="textnuevosalinventario"
+                        class="form-control"></label>
+                <br><br> Cantidad:
+                <label for="Cant"><input type="number" [min]="minimo_edit" [max]="maximo_edit" name="Cant" id="Cant" value={{Inv.cantidad_articulos}}
+                        [(ngModel)]="Inv.cantidad_articulos" formControlName="textnuevocantinventario"
+                        class="form-control"></label>
+                <br><br> Precio de venta:
+                <label for="Prec"><input type="number" name="Prec" id="Prec" value={{Inv.precio_venta}}
+                        [(ngModel)]="Inv.precio_venta" formControlName="textnuevoprecinventario"
+                        class="form-control"></label>
+                <br><br> Máximo de artículos:
+                <label for="Max"><input type="number" [(ngModel)]="maximo_edit" name="Max" id="Max" value={{Inv.max_articulos_inventario}}
+                        [(ngModel)]="Inv.max_articulos_inventario" formControlName="textnuevomaxinventario"
+                        class="form-control"></label>
+                <br><br> Mínimo de artículos:
+                <label for="Min"><input type="number" [(ngModel)]="minimo_edit" name="Min" id="Min" value={{Inv.min_articulos_inventario}}
+                        [(ngModel)]="Inv.min_articulos_inventario" formControlName="textnuevomininventario"
+                        class="form-control"></label>
+                <br><br> Ubicación del artículo:
+                <label for="Ubi"><input type="text" name="Ubi" id="Ubi" value={{Inv.ubicacion_producto}}
+                        [(ngModel)]="Inv.ubicacion_producto" formControlName="textnuevoubiinventario"
+                        class="form-control"></label>
+                <br><br> Tiempo de entrega del artículo:
+                <label for="Tiem"><input type="number" name="Tiem" id="Tiem" value={{Inv.tiempo_entrega}}
+                        [(ngModel)]="Inv.tiempo_entrega" formControlName="textnuevotieminventario"
+                        class="form-control"></label>
+                <br><br>
+            </li>
+            <br>
+            <button (click)="ActualizarInventario()" class="btn btn-outline-dark">Actualizar</button>
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!-- ***************************************************************************************** -->
+    <!-- botones para navegar a otras paginas -->
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Articulos">
+            ARTICULOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Proveedores">
+            PROVEEDORES
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Factura-Compras">
+            FACTURA DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Detalle-Compras">
+            DETALLE DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Marcas">
+            MARCAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Informes">
+            INFORMES
+        </button>
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a>
+        <a></a>
+    </div>
+</body>

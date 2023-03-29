@@ -1,0 +1,231 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF"> Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion" aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Factura-Compras#crear">Crear</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Factura-Compras#modificar">Modificar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Factura-Compras#mostrar">Mostrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Factura-Compras#listar">Listar</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+    <div style="text-align:center">
+        <h1>{{ title }}</h1>
+        <br><img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el listado de facturas de compras -->
+
+    <div class=" lista" id="listar">
+        <h2>Lista de las Facturas de Compras: </h2>
+        <form (ngSubmit)="consultaFacturaCompras(1)" [formGroup]="ListaFacturaCompra">
+            <!--[formGroup]="ListaTiposDocum"-->
+            <button type="submit" class="btn btn-outline-dark">Mostrar Lista de Facturas de Compras</button>
+            <br><br>
+            <button (click)="LimpiarLista()" class="btn btn-outline-dark">Limpiar Lista de Facturas de Compras
+            </button>
+            <br><br>
+            <h2>{{TituloFacturaCompras}}</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>{{TablaFacturaCompras[0]}}</th>
+                        <th>{{TablaFacturaCompras[1]}}</th>
+                        <th>{{TablaFacturaCompras[2]}}</th>
+                        <th>{{TablaFacturaCompras[3]}}</th>
+                        <th>{{TablaFacturaCompras[4]}}</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tfactcom of FacturaCompras">
+                            <th>{{ tfactcom.id_factura_compra}} </th>
+                            <th>{{ tfactcom.nombre_proveedor}} </th>
+                            <th>{{ tfactcom.fecha_factura_compra}} </th>
+                            <th>{{ tfactcom.forma_de_pago}} </th>
+                            <th>{{ tfactcom.estado_factura_compra}} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar una sola factura-->
+    <div class="buscar" id="mostrar">
+        <h2>Mostramos la Factura de compra seleccionada: </h2>
+        <br>
+        <form (ngSubmit)="buscarFacturaCompra()" [formGroup]="filtrarFacturaCompra">
+            Factura de Compra a mostrar:
+            <select class="dropdown" formControlName="combofiltro" (click)="consultaFacturaCompras(2)" class="form-control-sm">
+                <option hidden [selected]="true">Factura de Compra a buscar</option>
+                <option *ngFor="let Fact of comboListaFacturaCompra" [value]="Fact.id_factura_compra">
+                    {{Fact.nombre_proveedor}} -
+                    {{Fact.fecha_factura_compra}}
+                </option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Buscar Factura de compra</button>
+        </form>
+
+        <ul>
+            <br>
+            <h2>{{TituloFacturaCompra}}</h2>
+            <table class="tabBuscar">
+                <thead class="Colb">
+                    <th>{{TabBusFacturaCompras[0]}}</th>
+                    <th>{{TabBusFacturaCompras[1]}}</th>
+                    <th>{{TabBusFacturaCompras[2]}}</th>
+                    <th>{{TabBusFacturaCompras[3]}}</th>
+                    <th>{{TabBusFacturaCompras[4]}}</th>
+                </thead>
+                <tbody class="Filb">
+                    <tr *ngFor="let tfact of MiFacturaCompra">
+                        <th>{{ tfact.id_factura_compra}} </th>
+                        <th>{{ tfact.nombre_proveedor}} </th>
+                        <th>{{ tfact.fecha_factura_compra}} </th>
+                        <th>{{ tfact.forma_de_pago}} </th>
+                        <th>{{ tfact.estado_factura_compra}} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para crear una factura -->
+    <div class="crea" id="crear">
+        <h2>Registrar una Factura de Compra</h2>
+        <br>
+        <form (ngSubmit)="InsertarFacturaCompra()" [formGroup]="InsertarGFacturaCompra">
+            Proveedor:
+            <select class="dropdown" formControlName="combofiltroproveedor" (click)="consultaProveedores(1)" formControlName="textProveedorFactura" class="form-control-sm">
+                <option hidden [selected]="true">Seleccione el proveedor</option>
+                <option *ngFor="let m of comboListaProveedor" [value]="m.id_proveedor">
+                    {{m.nombre_proveedor}}
+                </option>
+            </select>
+            <br><br> Fecha de la factura:
+            <label for="FFacturaCompra"><input type="date" name="FFacturaCompra" id="FFacturaCompra"
+                    formControlName="textFechaFactura" class="form-control" placeholder="YYYY-MM-DD"></label>
+
+            <br><br> Forma de pago:
+            <label for="ForFacturaCompra"><input type="text" name="ForFacturaCompra" id="ForFacturaCompra"
+                    formControlName="textPagoFactura" class="form-control" placeholder="Ingrese forma de pago"></label>
+
+            <br><br> Estado de la factura:
+            <label for="EFacturaCompra"><input type="text" name="EFacturaCompra" id="EFacturaCompra"
+                    formControlName="textEstadoFactura" class="form-control" placeholder="Ingrese estado"></label>
+
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Insertar Factura de Compra</button>
+
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para actualizar una factura -->
+    <div class="edit" id="modificar">
+        <h2> Factura de compra a Editar</h2>
+        <br>
+        <form (ngSubmit)="buscarEditarFacturaCompra()" [formGroup]="ActualizarAFacturaCompra">
+            Factura de Compra a Editar:
+            <select class="dropdown" formControlName="BuscarIdFacturaCompra" (click)="consultaFacturaCompras(3)" class="form-control-sm">
+                <option hidden [selected]="true">Factura de Compra a editar</option>
+                <option *ngFor="let TFac of comboEditarFacturaCompra" [value]="TFac.id_factura_compra">
+                    {{TFac.nombre_proveedor}} -
+                    {{TFac.fecha_factura_compra}}
+                </option>
+            </select>
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Buscar Factura de Compra a Editar</button>
+            <br><br>
+            <h2>{{TituloFacturaCompraEdit}}</h2>
+            <li *ngFor="let Fact of MiFacturaCompraE">
+                Proveedor:
+                <select class="dropdown" formControlName="combofiltroproveedor" (click)="consultaProveedores(1)" value={{Fact.id_proveedor}} [(ngModel)]="Fact.id_proveedor" formControlName="textnuevoprovfactura" class="form-control-sm">
+                    <option hidden [selected]="true">Seleccione el proveedor</option>
+                    <option *ngFor="let prov of comboListaProveedor" [value]="prov.id_proveedor">
+                        {{prov.nombre_proveedor}}
+                    </option>
+                </select>
+                <br><br> Fecha de la factura:
+                <label for="FFactura"><input type="text" name="FFactura" id="FFactura"
+                        value={{Fact.fecha_factura_compra}} [(ngModel)]="Fact.fecha_factura_compra"
+                        formControlName="textnuevafechafactura" class="form-control"></label>
+                <br><br> Forma de pago:
+                <label for="PFactura"><input type="text" name="PFactura" id="PFactura" value={{Fact.forma_de_pago}}
+                        [(ngModel)]="Fact.forma_de_pago" formControlName="textnuevopagofactura"
+                        class="form-control"></label>
+                <br><br> Estado:
+                <label for="EFactura"><input type="text" name="EFactura" id="EFactura"
+                        value={{Fact.estado_factura_compra}} [(ngModel)]="Fact.estado_factura_compra"
+                        formControlName="textnuevoestadofactura" class="form-control"></label>
+                <br><br>
+            </li>
+            <br>
+            <button (click)="ActualizarFacturaCompra()" class="btn btn-outline-dark">Actualizar</button>
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!-- ***************************************************************************************** -->
+    <!-- botones para navegar a otras paginas -->
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Articulos">
+            ARTICULOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Proveedores">
+            PROVEEDORES
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Detalle-Compras">
+            DETALLE DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inventarios">
+            INVENTARIOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Marcas">
+            MARCAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Informes">
+            INFORMES
+        </button>
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a>
+        <a></a>
+    </div>
+</body>

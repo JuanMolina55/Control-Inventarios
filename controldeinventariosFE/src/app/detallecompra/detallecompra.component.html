@@ -1,0 +1,251 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF"> Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion" aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Detalle-Compras#crear">Crear</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Detalle-Compras#modificar">Modificar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Detalle-Compras#mostrar">Mostrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Detalle-Compras#listar">Listar</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+    <div style="text-align:center">
+        <h1>{{ title }}</h1>
+        <br><img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el listado de Tipos de Documentos -->
+
+    <div class=" lista" id="listar">
+        <h2>Lista de los Detalle de Compras: </h2>
+        <form (ngSubmit)="consultaDetalleCompras(1)" [formGroup]="ListaDetalleCompra">
+            <!--[formGroup]="ListaTiposDocum"-->
+            <button type="submit" class="btn btn-outline-dark">Mostrar Lista de Detalle de Compras</button>
+            <br><br>
+            <button (click)="LimpiarLista()" class="btn btn-outline-dark">Limpiar Lista de Detalle de Compras
+            </button>
+            <br><br>
+            <h2>{{TituloDetalleCompras}}</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>{{TablaDetalleCompras[0]}}</th>
+                        <th>{{TablaDetalleCompras[1]}}</th>
+                        <th>{{TablaDetalleCompras[2]}}</th>
+                        <th>{{TablaDetalleCompras[3]}}</th>
+                        <th>{{TablaDetalleCompras[4]}}</th>
+                        <th>{{TablaDetalleCompras[5]}}</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tdetcom of DetalleCompras">
+                            <th>{{ tdetcom.id_detalle_compra}} </th>
+                            <th>{{ tdetcom.nombre_articulo}} </th>
+                            <th>{{ tdetcom.nombre_marca}} </th>
+                            <th>{{ tdetcom.nombre_proveedor}} </th>
+                            <th>{{ tdetcom.cantidad_factura}} </th>
+                            <th>{{ tdetcom.precio_compra}} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el un solo Detalle de Compra -->
+    <div class="buscar" id="mostrar">
+        <h2>Mostramos el Detalle de Compra seleccionado: </h2>
+        <br>
+        <form (ngSubmit)="buscarDetalleCompra()" [formGroup]="filtrarDetalleCompra">
+            Detalle de Compra a mostrar:
+            <select class="dropdown" formControlName="combofiltro" (click)="consultaDetalleCompras(2)" class="form-control-sm">
+                <option hidden [selected]="true">Detalle de Compra a buscar</option>
+                <option *ngFor="let Detalle of comboListaDetalleCompra" [value]="Detalle.id_detalle_compra">
+                    {{Detalle.nombre_articulo}} -
+                    {{Detalle.nombre_marca}} -
+                    {{Detalle.nombre_proveedor}}
+                </option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Buscar Detalle de Compra</button>
+        </form>
+
+        <ul>
+            <br>
+            <h2>{{TituloDetalleCompra}}</h2>
+            <table class="tabBuscar">
+                <thead class="Colb">
+                    <th>{{TabBusDetalleCompras[0]}}</th>
+                    <th>{{TabBusDetalleCompras[1]}}</th>
+                    <th>{{TabBusDetalleCompras[2]}}</th>
+                    <th>{{TabBusDetalleCompras[3]}}</th>
+                    <th>{{TabBusDetalleCompras[4]}}</th>
+                    <th>{{TabBusDetalleCompras[5]}}</th>
+                </thead>
+                <tbody class="Filb">
+                    <tr *ngFor="let tdet of MiDetalleCompra">
+                        <th>{{ tdet.id_detalle_compra}} </th>
+                        <th>{{ tdet.nombre_articulo}} </th>
+                        <th>{{ tdet.nombre_marca}} </th>
+                        <th>{{ tdet.nombre_proveedor}} </th>
+                        <th>{{ tdet.cantidad_factura}} </th>
+                        <th>{{ tdet.precio_compra}} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para crear un Detalle de Compra -->
+    <div class="crea" id="crear">
+        <h2>Registrar un Nuevo Detalle de Compra</h2>
+        <br>
+        <form (ngSubmit)="InsertarDetalleCompra()" [formGroup]="InsertarGDetalleCompra">
+            Artículo:
+            <select class="dropdown" formControlName="combofiltroarticulo" (click)="consultaArticulos(1)" formControlName="textidartDetalleCompra" class="form-control-sm">
+                <option hidden [selected]="true">Seleccione el artículo</option>
+                <option *ngFor="let art of comboListaArticulo" [value]="art.id_articulo">
+                    {{art.nombre_articulo}} -
+                    {{art.nombre_marca}}
+                </option>
+            </select>
+            <br><br> Factura de compra:
+            <select class="dropdown" formControlName="combofiltrofacturacompra" (click)="consultaFacturaCompras(1)" formControlName="textidfactDetalleCompra" class="form-control-sm">
+                <option hidden [selected]="true">Seleccione la factura de compra</option>
+                <option *ngFor="let det of comboListaFacturaCompra" [value]="det.id_factura_compra">
+                    {{det.nombre_proveedor}} -
+                    {{det.fecha_factura_compra}}
+                </option>
+            </select>
+            <br><br> Cantidad:
+            <label for="cantFact"><input type="number" name="cantFact" id="cantFact"
+                    formControlName="textcantidadDetalleCompra" class="form-control"
+                    placeholder="Ingrese la cantidad"></label>
+
+            <br><br> Precio:
+            <label for="preFact"><input type="number" name="preFact" id="preFact"
+                    formControlName="textprecioDetalleCompra" class="form-control"
+                    placeholder="Ingrese el precio"></label>
+
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Insertar Detalle de Compra</button>
+
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para actualizar un Detalle de Compra -->
+    <div class="edit" id="modificar">
+        <h2> Detalle de Compra a Editar</h2>
+        <br>
+        <form (ngSubmit)="buscarEditarDetalleCompra()" [formGroup]="ActualizarADetalleCompra">
+            Detalle de Compra a Editar:
+            <select class="dropdown" formControlName="BuscarIdDetalleCompra" (click)="consultaDetalleCompras(3)" class="form-control-sm">
+                <option hidden [selected]="true">Detalle de Compra a editar</option>
+                <option *ngFor="let TDet of comboEditarDetalleCompra" [value]="TDet.id_detalle_compra">
+                    {{TDet.nombre_articulo}} -
+                    {{TDet.nombre_marca}} -
+                    {{TDet.nombre_proveedor}}
+                </option>
+            </select>
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Buscar Detalle de Compra a Editar</button>
+            <br><br>
+            <h2>{{TituloDetalleCompraEdit}}</h2>
+            <li *ngFor="let Det of MiDetalleCompraE">
+
+                Artículo:
+                <select class="dropdown" formControlName="combofiltroarticulo" (click)="consultaArticulos(1)" value={{Det.id_articulo}} [(ngModel)]="Det.id_articulo" formControlName="textnuevoidartDetalleCompra" class="form-control-sm">
+                    <option hidden [selected]="true">Seleccione el artículo</option>
+                    <option *ngFor="let art of comboListaArticulo" [value]="art.id_articulo">
+                        {{art.nombre_articulo}} -
+                        {{art.nombre_marca}}
+                    </option>
+                </select>
+                <br><br> Factura de compra:
+                <select class="dropdown" formControlName="combofiltrofacturacompra" (click)="consultaFacturaCompras(1)" value={{Det.id_factura_compra}} [(ngModel)]="Det.id_factura_compra" formControlName="textnuevoidfactDetalleCompra" class="form-control-sm">
+                    <option hidden [selected]="true">Seleccione la factura de compra</option>
+                    <option *ngFor="let fact of comboListaFacturaCompra" [value]="fact.id_factura_compra">
+                        {{fact.nombre_proveedor}} -
+                        {{fact.fecha_factura_compra}}
+                    </option>
+                </select>
+                <br><br> Cantidad:
+                <label for="cantFact"><input type="number" name="cantFact" id="cantFact" value={{Det.cantidad_factura}}
+                        [(ngModel)]="Det.cantidad_factura" formControlName="textnuevocantidadDetalleCompra"
+                        class="form-control"></label>
+                <br><br> Precio:
+                <label for="preDet"><input type="number" name="preDet" id="preDet" value={{Det.precio_compra}}
+                        [(ngModel)]="Det.precio_compra" formControlName="textnuevoprecioDetalleCompra"
+                        class="form-control"></label>
+                <br><br>
+            </li>
+            <br>
+            <button (click)="ActualizarDetalleCompra()" class="btn btn-outline-dark">Actualizar</button>
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!-- ***************************************************************************************** -->
+    <!-- botones para navegar a otras paginas -->
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Articulos">
+            ARTICULOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Proveedores">
+            PROVEEDORES
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Factura-Compras">
+            FACTURA DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inventarios">
+            INVENTARIOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Marcas">
+            MARCAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Informes">
+            INFORMES
+        </button>
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a>
+        <a></a>
+    </div>
+</body>

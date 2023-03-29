@@ -1,0 +1,212 @@
+<body>
+    <div class="container-fluid">
+        <!-- BARRA NAVEGACIÓN -->
+        <div class="bg-light">
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-3 border-bottom border-primary ">
+                <div class="container-fluid">
+                    <a href="#" class="navbar-brand">
+                        <img width="40" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+                        Happy Ending</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#MenuNavegacion"
+                        aria-expanded="false" aria-label="Toggle navigation" aria-controls="MenuNavegacion">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div id="MenuNavegacion" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Articulos">Crear</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Tipos-Documentos">Modificar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Factura-Compras">Mostrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Detalle-Compras">Listar</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br>
+    <div style="text-align:center">
+        <h1>{{ title }}</h1><br>
+        <img width="200" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+    </div>
+    <br><br><br><br>
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el listado de Tipos de Documentos -->
+    <div class=" lista">
+        <h2>Lista de los Tipos de Documento: </h2>
+        <form (ngSubmit)="consultaTipoDocumentos(1)" [formGroup]="ListaTiposDocum">
+            <!--[formGroup]="ListaTiposDocum"-->
+            <button type="submit" class="btn btn-outline-dark">Mostrar Lista de Tipos de Documentos</button>
+            <br><br>
+            <button (click)="LimpiarLista()" class="btn btn-outline-dark">Limpiar Lista de Tipos de
+                Documentos</button>
+            <br><br>
+            <h2>{{TituloTipDocs}}</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <th>{{TablaTipDocs[0]}}</th>
+                        <th>{{TablaTipDocs[1]}}</th>
+                        <th>{{TablaTipDocs[2]}}</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tdoc of TipDocs">
+                            <th>{{ tdoc.id_tip_doc}} </th>
+                            <th>{{ tdoc.tipo_documento}} </th>
+                            <th>{{ tdoc.iniciales_tip_doc}} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para mostrar el un solo Tipo de Documento -->
+    <div class="buscar">
+        <h2>Mostramos el Tipo de Documento seleccionado: </h2>
+        <br>
+        <form (ngSubmit)="buscarTipDoc()" [formGroup]="filtrarTipDoc">
+            Id del Tipo de Documento a mostrar
+            <select class="dropdown" formControlName="combofiltro" (click)="consultaTipoDocumentos(2)"
+                class="form-control-sm">
+                <option value="value1">Tipo de Documento a buscar</option>
+                <option *ngFor="let TipDoc of comboListaTipDoc" [value]="TipDoc.id_tip_doc">
+                    {{TipDoc.tipo_documento}} -
+                    {{TipDoc.iniciales_tip_doc}}
+                </option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Buscar Tipo Documento</button>
+        </form>
+
+        <ul>
+            <br>
+            <h2>{{TituloTipDoc}}</h2>
+            <table class="tabBuscar">
+                <thead class="Colb">
+                    <th class="b">{{TabBusTipDocs[0]}}</th>
+                    <th class="b">{{TabBusTipDocs[1]}}</th>
+                    <th class="b">{{TabBusTipDocs[2]}}</th>
+                </thead>
+                <tbody class="Filb">
+                    <tr class="b" *ngFor="let tdoc of MiTipDoc">
+                        <th class="b">{{ tdoc.id_tip_doc}} </th>
+                        <th class="b">{{ tdoc.tipo_documento}} </th>
+                        <th class="b">{{ tdoc.iniciales_tip_doc}} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para crear un  Tipo de documento -->
+    <div class="crea">
+        <h2>Registrar un Nuevo Tipo de Documento</h2>
+        <br>
+        <form (ngSubmit)="InsertarTipDoc()" [formGroup]="InsertarGTipDoc">
+            Nuevo Tipo Documento:
+            <label for="CTipDoc"><input type="text" name="CTipDoc" id="CTipDoc" formControlName="textTipDoc"
+                    class="form-control" placeholder="Ingrese nombre"></label>
+
+            <br><br>
+            Iniciales Nuevo Tipo de Documento:
+            <label for="InTipDoc"><input type="text" name="InTipDoc" id="InTipDoc" formControlName="textIniTipDoc"
+                    maxlength="3" class="form-control" placeholder="Ingrese iniciales"></label>
+
+            <br><br>
+            <button type="submit" class="btn btn-outline-dark">Insertar Tipo de Documento</button>
+
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <!--------------------------------------------------------------------------------------------->
+    <!-- para actualizar un tipo de documento -->
+    <div class="edit">
+        <h2> Tipo de Documento a Editar</h2>
+        <br>
+        <form (ngSubmit)="buscarEditarTipDoc()" [formGroup]="ActualizarATipDoc">
+            Id Tipo de Documento a Editar:
+            <select class="dropdown" formControlName="BuscarIdTipDoc" (click)="consultaTipoDocumentos(3)"
+                class="form-control-sm">
+                <option value="value1">Tipo de Documento a editar</option>
+                <option *ngFor="let TDoc of comboEditarTipDoc" [value]="TDoc.id_tip_doc">
+                    {{TDoc.tipo_documento}} -
+                    {{TDoc.iniciales_tip_doc}}
+                </option>
+            </select>
+            <br><br>
+
+            <button type="submit" class="btn btn-outline-dark">Buscar Tipo Documento a Editar</button>
+            <br><br>
+            <h2>{{TituloTipDocEdit}}</h2>
+            <li *ngFor="let Doc of MiTipDocE">
+                Nuevo Tipo Documento:
+                <label for="ETipDoc"><input type="text" name="ETipDoc" id="ETipDoc" value={{Doc.tipo_documento}}
+                        [(ngModel)]="Doc.tipo_documento" formControlName="textnuevotipdoc" class="form-control"></label>
+                <br><br>
+                Nuevas Iniciales Tipo Documento:
+                <label for="InTipDoc"><input type="text" name="InTipDoc" id="InTipDoc" value={{Doc.iniciales_tip_doc}}
+                        [(ngModel)]="Doc.iniciales_tip_doc" formControlName="textnuevoinicialestipdoc"
+                        class="form-control"></label>
+                <br><br>
+            </li>
+            <br>
+            <button (click)="ActualizarTipDoc()" class="btn btn-outline-dark">Actualizar</button>
+        </form>
+        <br>
+    </div>
+    <br><br><br><br>
+
+    <div class="d-grid gap-2 col-4 mx-auto">
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inicio">
+            INICIO
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Articulos">
+            ARTICULOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Proveedores">
+            PROVEEDORES
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Factura-Compras">
+            FACTURA DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Detalle-Compras">
+            DETALLE DE COMPRAS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Inventarios">
+            INVENTARIOS
+        </button>
+        <button type="button" class="btn btn-outline-primary" routerLink="/Marcas">
+            MARCAS
+        </button>
+        <!--
+        <h3><a routerLink="/Tipos-Documentos">TIPOS DE DOCUMENTOS</a></h3>
+        <h3><a routerLink="/Articulos">ARTICULOS</a></h3>
+        <h3><a routerLink="/Proveedores">PROVEEDORES</a></h3>
+        <h3><a routerLink="/Factura-Compras">FACTURA DE COMPRAS</a></h3>
+        <h3><a routerLink="/Detalle-Compras">DETALLE DE COMPRAS</a></h3>
+        <h3><a routerLink="/Inventarios">INVENTARIOS</a></h3>
+        <h3><a routerLink="/Marcas">MARCAS</a></h3>
+        -->
+    </div>
+    <br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <img width="75" src="https://i.ibb.co/4TCYd4w/Logo-HE-SF.png" alt="Logo-HE-SF">
+        <a></a><a></a>
+    </div>
+</body>

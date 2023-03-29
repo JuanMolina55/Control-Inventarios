@@ -1,0 +1,62 @@
+table
+{
+    background-color:rgb(159, 216, 154);
+    width: 100%;
+    font-family: "calibri", Garamond, 'Comic Sans';
+    font-weight: lighter;
+    font-size: 18px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+th, td 
+{
+    border: solid 1px black;
+    padding: 0px;
+}
+
+thead
+{
+    background-color: rgb(159, 216, 154);
+}
+
+tr:nth-child(even)
+{
+    background-color: rgb(159, 216, 154);
+}
+
+
+table.tabBuscar  /*---*/
+{
+    width: 100%;
+    border: none;
+    border-collapse: collapse; 
+    background-color:rgb(159, 216, 154);  
+    text-align: center;
+
+}
+
+thead.Colb
+{
+    background-color: rgb(159, 216, 154);
+    border: none;
+
+    font-family: "calibri", Garamond, 'Comic Sans';
+    font-weight: bold;    
+    font-size: 18px
+}
+
+tbody.Filb
+{
+    background-color: rgb(159, 216, 154);
+    border: none;
+
+    font-family: "calibri", Garamond, 'Comic Sans';
+    font-weight: lighter;
+    font-size: 14px;
+}
+
+th.b, tr.b 
+{
+    border: none;
+}
