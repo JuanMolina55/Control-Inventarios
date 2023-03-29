@@ -1,4 +1,4 @@
-# Control-Inventarios
+# Control Inventarios
 
 Manejo y control de inventarios mediante una interfaz gráfica, en donde este mostrara los artículos que ingresan, y dará factura y detalle de esta a los proveedores, también mostrará el informe de ventas que hay en el inventario en un tiempo específico puede ser mensual o anual.
 Entrando en detalle el manejo del inventario será por el método primero entra primero en salir, First in, first out, este software contara con un total de 6 entidades las cuales son Articulo, proveedor, detalle de compra, detalle de Factura, marca e inventario, cada uno de estas entidades manejara  la opción de crear, modificar, mostrar y listar, y contara con la opción de creación de 2 informes el primer informe será sobre compras de articulo por periodo de tiempo, e informe de compras de Proveedor y periodo de tiempo.
